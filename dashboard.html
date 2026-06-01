@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Командный центр — Все проекты</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #F1F5F9;
+  --surface: #FFFFFF;
+  --surface2: #F8FAFC;
+  --border: #E2E8F0;
+  --text: #0F172A;
+  --text-muted: #64748B;
+  --text-light: #94A3B8;
+
+  --active: #16A34A;
+  --active-bg: #F0FDF4;
+  --slow: #D97706;
+  --slow-bg: #FFFBEB;
+  --stuck: #DC2626;
+  --stuck-bg: #FEF2F2;
+  --paused: #64748B;
+  --paused-bg: #F8FAFC;
+  --frozen: #94A3B8;
+
+  --book: #7C3AED;
+  --book-bg: #F5F3FF;
+  --products: #0284C7;
+  --products-bg: #F0F9FF;
+  --insyte: #B45309;
+  --insyte-bg: #FFFBEB;
+  --tools: #059669;
+  --tools-bg: #F0FDF4;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--text);
+  color: white;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.header-left .subtitle { font-size: 13px; color: #94A3B8; margin-top: 2px; }
+.header-stats {
+  display: flex;
+  gap: 20px;
+}
+.hstat {
+  text-align: center;
+}
+.hstat-num {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+.hstat-label {
+  font-size: 10px;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* ── TODAY FOCUS ── */
+.focus-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 28px;
+}
+.focus-bar-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.focus-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.focus-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  min-width: 260px;
+  flex: 1;
+  max-width: 360px;
+}
+.focus-priority {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--text);
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.focus-content {}
+.focus-project {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.focus-action {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 1px;
+  line-height: 1.3;
+}
+.focus-item.stuck .focus-priority { background: var(--stuck); }
+.focus-item.slow .focus-priority { background: var(--slow); }
+
+/* ── CONTROLS ── */
+.controls {
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: white;
+  color: var(--text-muted);
+  transition: all 0.12s;
+}
+.filter-btn:hover { border-color: #94A3B8; color: var(--text); }
+.filter-btn.active { border-color: transparent; color: white; }
+.view-toggle {
+  margin-left: auto;
+  display: flex;
+  gap: 2px;
+  background: var(--bg);
+  padding: 3px;
+  border-radius: 8px;
+}
+.view-btn {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.12s;
+}
+.view-btn.active {
+  background: white;
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* ── MAIN CONTENT ── */
+.main { padding: 24px 28px; }
+
+/* ── GROUP SECTION ── */
+.group-section { margin-bottom: 32px; }
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.group-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+.group-count {
+  font-size: 12px;
+  color: var(--text-light);
+}
+.group-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── CARDS GRID ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+/* ── PROJECT CARD ── */
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  border-left-width: 4px;
+  transition: box-shadow 0.15s, transform 0.1s;
+  position: relative;
+}
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+.card[data-momentum="active"] { border-left-color: var(--active); }
+.card[data-momentum="slow"]   { border-left-color: var(--slow); }
+.card[data-momentum="stuck"]  { border-left-color: var(--stuck); }
+.card[data-momentum="paused"] { border-left-color: var(--paused); }
+.card[data-momentum="frozen"] { border-left-color: var(--frozen); }
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.card-group-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.momentum-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+.momentum-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.chip-active { color: var(--active); background: var(--active-bg); }
+.chip-slow   { color: var(--slow);   background: var(--slow-bg); }
+.chip-stuck  { color: var(--stuck);  background: var(--stuck-bg); }
+.chip-paused { color: var(--paused); background: var(--paused-bg); }
+.chip-frozen { color: var(--frozen); background: var(--paused-bg); }
+
+.card-name {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.card-stage {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.card-section {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.card-section-label {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-light);
+  margin-bottom: 3px;
+}
+.card-section-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.section-action {
+  background: #F0F9FF;
+  border-left: 2px solid var(--products);
+}
+.section-action .card-section-value { color: #0369A1; font-weight: 600; }
+
+.section-blocker {
+  background: var(--stuck-bg);
+  border-left: 2px solid var(--stuck);
+}
+.section-blocker .card-section-label { color: var(--stuck); }
+.section-blocker .card-section-value { color: var(--stuck); }
+
+.section-info {
+  background: var(--surface2);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.priority-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.priority-label { font-size: 10px; color: var(--text-light); }
+.priority-pips {
+  display: flex;
+  gap: 3px;
+}
+.pip {
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+.pip.on { background: var(--text); }
+.pip.p1.on { background: #DC2626; }
+.pip.p2.on { background: #D97706; }
+.pip.p3.on { background: #0284C7; }
+.pip.p4.on { background: #64748B; }
+.pip.p5.on { background: #94A3B8; }
+
+.metric-display {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.updated-info { font-size: 11px; color: var(--text-light); }
+
+/* ── KANBAN ── */
+.kanban-scroll {
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.kanban-board {
+  display: flex;
+  gap: 14px;
+  min-width: max-content;
+}
+.kanban-col {
+  width: 230px;
+  flex-shrink: 0;
+}
+.kanban-col-header {
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.kanban-col-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.kanban-col-count {
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--bg);
+  color: var(--text-muted);
+  border-radius: 10px;
+  padding: 1px 7px;
+}
+.kanban-col-body {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 8px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kcard {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  border-left-width: 3px;
+}
+.kcard[data-momentum="active"] { border-left-color: var(--active); }
+.kcard[data-momentum="slow"]   { border-left-color: var(--slow); }
+.kcard[data-momentum="stuck"]  { border-left-color: var(--stuck); }
+.kcard[data-momentum="paused"] { border-left-color: var(--paused); }
+.kcard[data-momentum="frozen"] { border-left-color: var(--frozen); }
+
+.kcard-name { font-size: 12px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+.kcard-meta { display: flex; justify-content: space-between; align-items: center; }
+.kcard-group { font-size: 10px; font-weight: 700; }
+.kcard-action { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.3; }
+
+/* ── UTILS ── */
+.hidden { display: none !important; }
+.footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 11px;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Командный центр</h1>
+    <div class="subtitle" id="headerDate"></div>
+  </div>
+  <div class="header-stats" id="headerStats"></div>
+</div>
+
+<div class="focus-bar">
+  <div class="focus-bar-title">Фокус на сегодня — топ приоритеты</div>
+  <div class="focus-items" id="focusItems"></div>
+</div>
+
+<div class="controls">
+  <div id="filterBtns"></div>
+  <div class="view-toggle">
+    <button class="view-btn active" onclick="setView('cards')" id="vbtn-cards">Карточки</button>
+    <button class="view-btn" onclick="setView('kanban')" id="vbtn-kanban">Канбан</button>
+  </div>
+</div>
+
+<div id="cardsView" class="main"></div>
+<div id="kanbanView" class="main hidden"></div>
+
+<div class="footer">
+  Чтобы обновить данные — откройте файл в редакторе и измените массив PROJECTS в блоке &lt;script&gt;
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  ДАННЫЕ — обновляйте этот раздел ежедневно
+// ══════════════════════════════════════════════════════════════
+const PROJECTS = [
+
+  // ── КНИГА ────────────────────────────────────────────────
+  {
+    id: "book-main",
+    name: "Книга Общества Счастья",
+    group: "Книга",
+    stage: "Написание",              // свободный текст — ваша стадия
+    momentum: "slow",                // active | slow | stuck | paused | frozen
+    priority: 2,                     // 1 = самый важный, 5 = наименее важный
+    next_action: "Укажите следующий шаг",
+    blocker: "",                     // пусто если нет — иначе напишите причину
+    resources: "",                   // пример: "3 дня, 50 000 руб"
+    metric: "",                      // пример: "Глава 4 из 12"
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "book-analytics",
+    name: "Общество счастья — Аналитика",
+    group: "Книга",
+    stage: "Исследование",
+    momentum: "paused",
+    priority: 4,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "book-structure",
+    name: "Книга — Структура и главы",
+    group: "Книга",
+    stage: "Написание",
+    momentum: "active",
+    priority: 2,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "book-materials",
+    name: "Материалы — Источники",
+    group: "Книга",
+    stage: "Сбор материала",
+    momentum: "slow",
+    priority: 3,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+
+  // ── ПРОДУКТЫ ─────────────────────────────────────────────
+  {
+    id: "teledoco",
+    name: "Teledoco — Telemed Platform",
+    group: "Продукты",
+    stage: "Разработка",
+    momentum: "active",
+    priority: 1,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "helpnee",
+    name: "Helpnee — Мобильное приложение",
+    group: "Продукты",
+    stage: "MVP",
+    momentum: "active",
+    priority: 1,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "bmo",
+    name: "Business Missions Online Platform",
+    group: "Продукты",
+    stage: "Разработка",
+    momentum: "slow",
+    priority: 2,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "franshiza",
+    name: "Франшиза +Teledoco",
+    group: "Продукты",
+    stage: "Запуск",
+    momentum: "active",
+    priority: 1,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "openpharma",
+    name: "OpenPharmLab",
+    group: "Продукты",
+    stage: "Идея",
+    momentum: "paused",
+    priority: 3,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+
+  // ── INSYTE ───────────────────────────────────────────────
+  {
+    id: "sauna",
+    name: "INSYTE SAUNA — Продажа",
+    group: "INSYTE",
+    stage: "Продажи",
+    momentum: "active",
+    priority: 1,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "lititan",
+    name: "LiTitanat ACCUM — Производство",
+    group: "INSYTE",
+    stage: "Производство",
+    momentum: "active",
+    priority: 1,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+  {
+    id: "smarthome",
+    name: "SmartHome — Insyte",
+    group: "INSYTE",
+    stage: "Разработка",
+    momentum: "stuck",
+    priority: 3,
+    next_action: "Укажите следующий шаг",
+    blocker: "Укажите, что блокирует проект",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  },
+
+  // ── ИНСТРУМЕНТЫ ──────────────────────────────────────────
+  {
+    id: "ai-agents",
+    name: "AI Agents — Автоматизация",
+    group: "Инструменты",
+    stage: "Разработка",
+    momentum: "slow",
+    priority: 3,
+    next_action: "Укажите следующий шаг",
+    blocker: "",
+    resources: "",
+    metric: "",
+    last_updated: "2026-06-01"
+  }
+];
+// ══════════════════════════════════════════════════════════════
+
+// ── CONFIG ────────────────────────────────────────────────────
+const GROUPS_ORDER = ["Все", "Книга", "Продукты", "INSYTE", "Инструменты"];
+
+const GROUP_STYLE = {
+  "Книга":       { color: "#7C3AED", bg: "#F5F3FF" },
+  "Продукты":    { color: "#0284C7", bg: "#F0F9FF" },
+  "INSYTE":      { color: "#B45309", bg: "#FEF3C7" },
+  "Инструменты": { color: "#059669", bg: "#ECFDF5" }
+};
+
+const MOMENTUM_STYLE = {
+  active: { label: "Движется",   color: "#16A34A", bg: "#F0FDF4" },
+  slow:   { label: "Замедлился", color: "#D97706", bg: "#FFFBEB" },
+  stuck:  { label: "Стоит",      color: "#DC2626", bg: "#FEF2F2" },
+  paused: { label: "Пауза",      color: "#64748B", bg: "#F8FAFC" },
+  frozen: { label: "Заморожен",  color: "#94A3B8", bg: "#F8FAFC" }
+};
+
+const STAGE_SORT = [
+  "Идея","Концепция","Исследование","Сбор материала","Анализ",
+  "Разработка","Создание","Написание",
+  "MVP","Прототип","Тест",
+  "Запуск","Пилот",
+  "Продажи","Производство","Рост",
+  "Масштабирование",
+  "Пауза","Заморожен"
+];
+
+let activeGroup = "Все";
+let activeView  = "cards";
+
+// ── INIT ─────────────────────────────────────────────────────
+function init() {
+  const now = new Date();
+  document.getElementById("headerDate").textContent =
+    now.toLocaleDateString("ru-RU", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+
+  renderHeaderStats();
+  renderFocus();
+  renderFilters();
+  renderCards();
+  renderKanban();
+}
+
+// ── HEADER STATS ─────────────────────────────────────────────
+function renderHeaderStats() {
+  const counts = {};
+  PROJECTS.forEach(p => { counts[p.momentum] = (counts[p.momentum]||0)+1; });
+  document.getElementById("headerStats").innerHTML = `
+    <div class="hstat"><div class="hstat-num">${PROJECTS.length}</div><div class="hstat-label">Проектов</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:#4ADE80">${counts.active||0}</div><div class="hstat-label">Движутся</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:#FCD34D">${counts.slow||0}</div><div class="hstat-label">Замедлились</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:#F87171">${counts.stuck||0}</div><div class="hstat-label">Стоят</div></div>
+    <div class="hstat"><div class="hstat-num" style="color:#94A3B8">${(counts.paused||0)+(counts.frozen||0)}</div><div class="hstat-label">Пауза</div></div>
+  `;
+}
+
+// ── TODAY FOCUS ───────────────────────────────────────────────
+function renderFocus() {
+  const focusable = PROJECTS
+    .filter(p => p.momentum !== "paused" && p.momentum !== "frozen")
+    .sort((a, b) => {
+      const mScore = { stuck:0, slow:1, active:2 };
+      const am = mScore[a.momentum] ?? 1;
+      const bm = mScore[b.momentum] ?? 1;
+      // priority 1 is highest → sort ascending by priority, then stuck/slow first
+      if (a.priority !== b.priority) return a.priority - b.priority;
+      return am - bm;
+    })
+    .slice(0, 5);
+
+  document.getElementById("focusItems").innerHTML = focusable.map((p, i) => {
+    const cls = p.momentum === "stuck" ? "stuck" : p.momentum === "slow" ? "slow" : "";
+    return `
+      <div class="focus-item ${cls}">
+        <div class="focus-priority">${p.priority}</div>
+        <div class="focus-content">
+          <div class="focus-project">${p.group} · ${p.stage}</div>
+          <div class="focus-action">${p.name}</div>
+          ${p.next_action ? `<div style="font-size:12px;color:#64748B;margin-top:2px;">→ ${p.next_action}</div>` : ""}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+// ── FILTERS ───────────────────────────────────────────────────
+function renderFilters() {
+  document.getElementById("filterBtns").innerHTML = GROUPS_ORDER.map(g => {
+    const isAll = g === "Все";
+    const style = GROUP_STYLE[g];
+    const isActive = g === activeGroup;
+    const bgColor = isActive ? (isAll ? "#0F172A" : style.color) : "white";
+    const textColor = isActive ? "white" : "#64748B";
+    return `<button class="filter-btn ${isActive ? 'active' : ''}"
+      style="background:${bgColor}; color:${textColor}; margin-right:6px;"
+      onclick="filterGroup('${g}')">${g}</button>`;
+  }).join("");
+}
+
+function filterGroup(g) {
+  activeGroup = g;
+  renderFilters();
+  renderCards();
+}
+
+function setView(v) {
+  activeView = v;
+  document.getElementById("cardsView").classList.toggle("hidden", v !== "cards");
+  document.getElementById("kanbanView").classList.toggle("hidden", v !== "kanban");
+  document.getElementById("vbtn-cards").classList.toggle("active", v === "cards");
+  document.getElementById("vbtn-kanban").classList.toggle("active", v === "kanban");
+}
+
+function visibleProjects() {
+  return activeGroup === "Все" ? PROJECTS : PROJECTS.filter(p => p.group === activeGroup);
+}
+
+// ── CARDS VIEW ────────────────────────────────────────────────
+function renderCards() {
+  const container = document.getElementById("cardsView");
+  const projects  = visibleProjects();
+
+  if (activeGroup !== "Все") {
+    const sorted = [...projects].sort((a,b) => a.priority - b.priority);
+    container.innerHTML = `<div class="cards-grid">${sorted.map(cardHTML).join("")}</div>`;
+    return;
+  }
+
+  const groups = ["Книга","Продукты","INSYTE","Инструменты"];
+  container.innerHTML = groups.map(g => {
+    const gp = projects.filter(p => p.group === g);
+    if (!gp.length) return "";
+    const style = GROUP_STYLE[g];
+    const sorted = [...gp].sort((a,b) => a.priority - b.priority);
+    return `
+      <div class="group-section">
+        <div class="group-header">
+          <span class="group-label" style="color:${style.color}; background:${style.bg}">${g}</span>
+          <span class="group-count">${gp.length} проекта</span>
+          <div class="group-line"></div>
+        </div>
+        <div class="cards-grid">${sorted.map(cardHTML).join("")}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function cardHTML(p) {
+  const ms  = MOMENTUM_STYLE[p.momentum] || MOMENTUM_STYLE.paused;
+  const gs  = GROUP_STYLE[p.group] || { color:"#64748B", bg:"#F8FAFC" };
+  const pip = (n) => {
+    const cols = ["#DC2626","#D97706","#0284C7","#64748B","#94A3B8"];
+    return Array(5).fill(0).map((_,i) =>
+      `<div class="pip ${i < (6-p.priority) ? 'on' : ''}" style="${i<(6-p.priority)?`background:${cols[p.priority-1]}`:''}" ></div>`
+    ).join("");
+  };
+
+  const stale = (() => {
+    const d = new Date(p.last_updated);
+    const days = Math.floor((Date.now() - d) / 86400000);
+    if (days > 14) return `<span style="color:#EF4444">⚠ ${days}д назад</span>`;
+    if (days > 7)  return `<span style="color:#D97706">${days}д назад</span>`;
+    return `<span>${fmtDate(p.last_updated)}</span>`;
+  })();
+
+  return `
+    <div class="card" data-momentum="${p.momentum}">
+      <div class="card-top">
+        <span class="card-group-badge" style="color:${gs.color}; background:${gs.bg}">${p.group}</span>
+        <span class="momentum-chip chip-${p.momentum}">
+          <span class="momentum-dot" style="background:${ms.color}"></span>
+          ${ms.label}
+        </span>
+      </div>
+
+      <div class="card-name">${p.name}</div>
+      <div class="card-stage">Стадия: ${p.stage}</div>
+
+      ${p.next_action ? `
+        <div class="card-section section-action">
+          <div class="card-section-label">Следующий шаг</div>
+          <div class="card-section-value">${p.next_action}</div>
+        </div>
+      ` : ""}
+
+      ${p.blocker ? `
+        <div class="card-section section-blocker">
+          <div class="card-section-label">⚠ Блокер</div>
+          <div class="card-section-value">${p.blocker}</div>
+        </div>
+      ` : ""}
+
+      ${(p.resources || p.metric) ? `
+        <div class="card-section section-info">
+          ${p.resources ? `<div class="card-section-label">Ресурсы</div><div class="card-section-value" style="margin-bottom:${p.metric?'6px':'0'}">${p.resources}</div>` : ""}
+          ${p.metric    ? `<div class="card-section-label">Метрика</div><div class="card-section-value">${p.metric}</div>` : ""}
+        </div>
+      ` : ""}
+
+      <div class="card-footer">
+        <div class="priority-display">
+          <span class="priority-label">П${p.priority}</span>
+          <div class="priority-pips">${pip(p.priority)}</div>
+        </div>
+        <div class="updated-info">${stale}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── KANBAN VIEW ───────────────────────────────────────────────
+function renderKanban() {
+  const projects = PROJECTS;
+  const allStages = [...new Set(projects.map(p => p.stage))];
+  const stages = STAGE_SORT.filter(s => allStages.includes(s))
+    .concat(allStages.filter(s => !STAGE_SORT.includes(s)));
+
+  document.getElementById("kanbanView").innerHTML = `
+    <div class="kanban-scroll">
+      <div class="kanban-board">
+        ${stages.map(stage => {
+          const cards = projects.filter(p => p.stage === stage)
+            .sort((a,b) => a.priority - b.priority);
+          const ms = (p) => MOMENTUM_STYLE[p.momentum] || MOMENTUM_STYLE.paused;
+          const gs = (p) => GROUP_STYLE[p.group] || { color:"#64748B" };
+          return `
+            <div class="kanban-col">
+              <div class="kanban-col-header">
+                <span class="kanban-col-name">${stage}</span>
+                <span class="kanban-col-count">${cards.length}</span>
+              </div>
+              <div class="kanban-col-body">
+                ${cards.map(p => `
+                  <div class="kcard" data-momentum="${p.momentum}">
+                    <div class="kcard-name">${p.name}</div>
+                    <div class="kcard-meta">
+                      <span class="kcard-group" style="color:${gs(p).color}">${p.group}</span>
+                      <span style="font-size:10px; color:${ms(p).color}; font-weight:600;">${ms(p).label}</span>
+                    </div>
+                    ${p.next_action ? `<div class="kcard-action">→ ${p.next_action}</div>` : ""}
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  `;
+}
+
+// ── UTILS ─────────────────────────────────────────────────────
+function fmtDate(s) {
+  if (!s) return "";
+  return new Date(s).toLocaleDateString("ru-RU", { day:"numeric", month:"short" });
+}
+
+init();
+</script>
+</body>
+</html>

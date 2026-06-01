@@ -1,0 +1,42 @@
+{
+  "mission": "Созидание для людей гармоничных пространств счастья, здоровья, комфорта, радости, любви, успеха и процветания.",
+
+  "global_goal": "Сделать мир (и Русь) счастливым, свободным, здоровым, мирным, грамотным, безопасным, гармоничным, полным любви и радости.",
+
+  "goal_categories": [
+    { "id": "mission",       "label": "Миссия",              "color": "#7C3AED" },
+    { "id": "wealth",        "label": "Состояние",           "color": "#D97706" },
+    { "id": "health",        "label": "Здоровье",            "color": "#16A34A" },
+    { "id": "influence",     "label": "Влияние",             "color": "#0284C7" },
+    { "id": "personal",      "label": "Личное развитие",     "color": "#64748B" },
+    { "id": "social",        "label": "Социальное",          "color": "#DB2777" }
+  ],
+
+  "goals": [
+
+    { "id": "political-2029",   "name": "Влиятельный политический деятель",           "categories": ["influence"],           "deadline": "2029",   "metric": "Реальное влияние на государственные решения" },
+    { "id": "live-95",          "name": "Дожить до 95 лет здоровым, счастливым, богатым", "categories": ["health","wealth"],  "deadline": "—",      "metric": "—" },
+    { "id": "fortune-2030",     "name": "Состояние $1 250 000 000",                   "categories": ["wealth"],              "deadline": "2030",   "metric": "$1.25B net worth" },
+    { "id": "inner-peace",      "name": "Полный душевный покой",                      "categories": ["personal"],            "deadline": "2026+",  "metric": "Внутреннее состояние" },
+    { "id": "villa",            "name": "Вилла у моря 700+ кв.м",                    "categories": ["wealth"],              "deadline": "2027+",  "metric": "700+ sqm, тёплый климат" },
+    { "id": "singing",          "name": "Петь как Панайотов и Димаш",                "categories": ["personal"],            "deadline": "2027",   "metric": "Концертный уровень" },
+
+    { "id": "oratory-2026",     "name": "Ораторское мастерство и импровизация",       "categories": ["personal","influence"],"deadline": "2026",   "metric": "Концертный уровень" },
+    { "id": "president-2026",   "name": "Близкий друг президента России",             "categories": ["influence"],           "deadline": "2026",   "metric": "Личные отношения" },
+    { "id": "youtube-2026",     "name": "YouTube 1 млн подписчиков",                 "categories": ["influence","social"],  "deadline": "2026",   "metric": "1M подписчиков, 100M просмотров" },
+    { "id": "body-2026",        "name": "Рельефное тело 80–84 кг",                   "categories": ["health"],              "deadline": "2026",   "metric": "−5 кг жира, +5 кг мышц" },
+    { "id": "heal-legs",        "name": "Вылечить травму ног",                        "categories": ["health"],              "deadline": "2026",   "metric": "Полное выздоровление" },
+    { "id": "vision",           "name": "Восстановить зрение",                        "categories": ["health"],              "deadline": "2026",   "metric": "100%" },
+    { "id": "book-personal",    "name": "Книга «Общество Счастья»",                   "categories": ["personal","mission"],  "deadline": "2026-2027", "metric": "Написана и издана" },
+
+    { "id": "biz-smarthome",    "name": "SmartHome: 500 млн руб + сеть",             "categories": ["wealth","mission"],    "deadline": "2027",   "metric": "500M руб выручка, 100 точек, 1000 агентов" },
+    { "id": "biz-teledoco",     "name": "Запустить Teledoco",                         "categories": ["wealth","health","mission"], "deadline": "2026", "metric": "Платформа запущена и монетизирована" },
+    { "id": "biz-village",      "name": "Посёлок 500 домов на 500 га",               "categories": ["wealth","mission","influence"], "deadline": "2026+", "metric": "Земля получена, проектирование начато" },
+    { "id": "biz-pharma",       "name": "OpenPharmLab: 2 млрд руб",                  "categories": ["wealth","health","mission"], "deadline": "2026", "metric": "40 патентов, производство, 2B руб выручка" },
+    { "id": "biz-monitoring",   "name": "Мониторинг: 150 млн руб",                   "categories": ["wealth"],              "deadline": "2026",   "metric": "150M руб продаж" },
+    { "id": "biz-helpme",       "name": "Help.me: запустить MVP",                     "categories": ["social","mission"],    "deadline": "2026",   "metric": "MVP в продакшене" },
+    { "id": "biz-book",         "name": "Книга: 100 000 экз., 100–200 млн руб",      "categories": ["wealth","mission"],    "deadline": "2026-2027", "metric": "100K продаж" },
+    { "id": "biz-bmo",          "name": "Business Missions Online Platform",          "categories": ["wealth","social"],     "deadline": "2026",   "metric": "Платформа запущена" },
+    { "id": "biz-franchise",    "name": "Франшиза +Teledoco",                         "categories": ["wealth","health"],     "deadline": "2026",   "metric": "Сеть запущена" }
+  ]
+}
