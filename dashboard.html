@@ -473,15 +473,16 @@ const PROJECTS = [
   // ── КНИГА ────────────────────────────────────────────────
   {
     id: "book-main",
-    name: "Книга Общества Счастья",
+    name: "Книга «Общество Счастья»",
     group: "Книга",
-    stage: "Написание",              // свободный текст — ваша стадия
-    momentum: "slow",                // active | slow | stuck | paused | frozen
-    priority: 2,                     // 1 = самый важный, 5 = наименее важный
-    next_action: "Укажите следующий шаг",
-    blocker: "",                     // пусто если нет — иначе напишите причину
-    resources: "",                   // пример: "3 дня, 50 000 руб"
-    metric: "",                      // пример: "Глава 4 из 12"
+    stage: "Написание",
+    momentum: "slow",
+    priority: 2,
+    goals: ["mission","personal","wealth"],
+    next_action: "Заполните: какая глава пишется сейчас?",
+    blocker: "",
+    resources: "Основной ресурс: время",
+    metric: "Заполните: глав написано из N",
     last_updated: "2026-06-01"
   },
   {
@@ -491,7 +492,8 @@ const PROJECTS = [
     stage: "Исследование",
     momentum: "paused",
     priority: 4,
-    next_action: "Укажите следующий шаг",
+    goals: ["mission","personal"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -504,7 +506,8 @@ const PROJECTS = [
     stage: "Написание",
     momentum: "active",
     priority: 2,
-    next_action: "Укажите следующий шаг",
+    goals: ["mission","personal"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -517,7 +520,8 @@ const PROJECTS = [
     stage: "Сбор материала",
     momentum: "slow",
     priority: 3,
-    next_action: "Укажите следующий шаг",
+    goals: ["mission","personal"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -529,10 +533,11 @@ const PROJECTS = [
     id: "teledoco",
     name: "Teledoco — Telemed Platform",
     group: "Продукты",
-    stage: "Разработка",
+    stage: "Разработка платформы",
     momentum: "active",
     priority: 1,
-    next_action: "Укажите следующий шаг",
+    goals: ["wealth","health","mission"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -540,12 +545,13 @@ const PROJECTS = [
   },
   {
     id: "helpnee",
-    name: "Helpnee — Мобильное приложение",
+    name: "Helpnee — Help.me",
     group: "Продукты",
-    stage: "MVP",
+    stage: "Разработка MVP",
     momentum: "active",
     priority: 1,
-    next_action: "Укажите следующий шаг",
+    goals: ["social","mission"],
+    next_action: "Завершить разработку, запустить MVP",
     blocker: "",
     resources: "",
     metric: "",
@@ -558,7 +564,8 @@ const PROJECTS = [
     stage: "Разработка",
     momentum: "slow",
     priority: 2,
-    next_action: "Укажите следующий шаг",
+    goals: ["wealth","social"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -568,10 +575,11 @@ const PROJECTS = [
     id: "franshiza",
     name: "Франшиза +Teledoco",
     group: "Продукты",
-    stage: "Запуск",
+    stage: "Запуск сети",
     momentum: "active",
     priority: 1,
-    next_action: "Укажите следующий шаг",
+    goals: ["wealth","health"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -579,15 +587,16 @@ const PROJECTS = [
   },
   {
     id: "openpharma",
-    name: "OpenPharmLab",
+    name: "OpenPharmLab — Фармкомпания",
     group: "Продукты",
-    stage: "Идея",
-    momentum: "paused",
-    priority: 3,
-    next_action: "Укажите следующий шаг",
-    blocker: "",
-    resources: "",
-    metric: "",
+    stage: "Подготовка к производству",
+    momentum: "slow",
+    priority: 1,
+    goals: ["wealth","health","mission"],
+    next_action: "Заполните следующий шаг",
+    blocker: "Заполните: что тормозит патентование и производство",
+    resources: "Нужен: патентный юрист, инвестиции",
+    metric: "~40 разработок в портфеле",
     last_updated: "2026-06-01"
   },
 
@@ -596,13 +605,14 @@ const PROJECTS = [
     id: "sauna",
     name: "INSYTE SAUNA — Продажа",
     group: "INSYTE",
-    stage: "Продажи",
+    stage: "Активные продажи",
     momentum: "active",
     priority: 1,
-    next_action: "Укажите следующий шаг",
+    goals: ["wealth"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
-    metric: "",
+    metric: "Цель: 150 млн руб в 2026",
     last_updated: "2026-06-01"
   },
   {
@@ -612,23 +622,25 @@ const PROJECTS = [
     stage: "Производство",
     momentum: "active",
     priority: 1,
-    next_action: "Укажите следующий шаг",
+    goals: ["wealth","mission"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
-    metric: "",
+    metric: "Заполните: объём производства",
     last_updated: "2026-06-01"
   },
   {
     id: "smarthome",
     name: "SmartHome — Insyte",
     group: "INSYTE",
-    stage: "Разработка",
-    momentum: "stuck",
-    priority: 3,
-    next_action: "Укажите следующий шаг",
-    blocker: "Укажите, что блокирует проект",
-    resources: "",
-    metric: "",
+    stage: "Перестройка бизнес-модели",
+    momentum: "slow",
+    priority: 1,
+    goals: ["wealth","mission"],
+    next_action: "Зафиксировать новую модель продаж письменно: роли, KPI, схема передачи клиента",
+    blocker: "Нет структуры задач с владельцами и дедлайнами — всё в одной голове",
+    resources: "Нужен: инженер на шоурум Москва, менеджер на международные продажи",
+    metric: "Цель: 500 млн руб (2026–2027)",
     last_updated: "2026-06-01"
   },
 
@@ -640,7 +652,8 @@ const PROJECTS = [
     stage: "Разработка",
     momentum: "slow",
     priority: 3,
-    next_action: "Укажите следующий шаг",
+    goals: ["personal","wealth"],
+    next_action: "Заполните следующий шаг",
     blocker: "",
     resources: "",
     metric: "",
@@ -665,6 +678,15 @@ const MOMENTUM_STYLE = {
   stuck:  { label: "Стоит",      color: "#DC2626", bg: "#FEF2F2" },
   paused: { label: "Пауза",      color: "#64748B", bg: "#F8FAFC" },
   frozen: { label: "Заморожен",  color: "#94A3B8", bg: "#F8FAFC" }
+};
+
+const GOAL_STYLE = {
+  mission:   { label: "Миссия",    color: "#7C3AED", bg: "#F5F3FF" },
+  wealth:    { label: "Состояние", color: "#B45309", bg: "#FEF3C7" },
+  health:    { label: "Здоровье",  color: "#16A34A", bg: "#F0FDF4" },
+  influence: { label: "Влияние",   color: "#0284C7", bg: "#F0F9FF" },
+  personal:  { label: "Личное",    color: "#64748B", bg: "#F1F5F9" },
+  social:    { label: "Социальное",color: "#DB2777", bg: "#FDF2F8" }
 };
 
 const STAGE_SORT = [
@@ -846,6 +868,16 @@ function cardHTML(p) {
         <div class="card-section section-info">
           ${p.resources ? `<div class="card-section-label">Ресурсы</div><div class="card-section-value" style="margin-bottom:${p.metric?'6px':'0'}">${p.resources}</div>` : ""}
           ${p.metric    ? `<div class="card-section-label">Метрика</div><div class="card-section-value">${p.metric}</div>` : ""}
+        </div>
+      ` : ""}
+
+      ${p.goals && p.goals.length ? `
+        <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:10px;">
+          ${p.goals.map(g => {
+            const gs = GOAL_STYLE[g];
+            if (!gs) return "";
+            return `<span style="font-size:10px; font-weight:700; padding:2px 7px; border-radius:10px; color:${gs.color}; background:${gs.bg}">${gs.label}</span>`;
+          }).join("")}
         </div>
       ` : ""}
 
